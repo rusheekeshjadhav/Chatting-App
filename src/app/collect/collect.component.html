@@ -1,0 +1,91 @@
+<div class="container" style="margin-top: 20px; outline: auto; outline-offset: 10px;">
+    <div class="row">
+        <div style="margin-top: 5px;" class="col-3">
+            <div>
+                <h4>Messeging App</h4>
+            </div>
+            <hr />
+            <div>
+                <button class="btn btn-primary" (click)="newUser()">Create New User</button>
+                <hr />
+                <div *ngIf="UserFlag">
+                    <input style="margin-top: 5px;" id="ipuser" type="text" placeholder="UserName" #username> <br />
+                    <input style="margin-top: 5px;" id="ippass" type="password" placeholder="Password" #password>
+                    <button class="btn btn-primary" style="margin-top: 5px;"
+                        (click)="addUser(username.value, password.value)">Add User</button>
+                    <hr />
+                </div>
+            </div>
+            <div>
+                <div class="btn-group" *ngIf="User[0]">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Select User
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><button class="dropdown-item" (click)="selectUse(item)"
+                                *ngFor="let item of User">{{item.userName}}</button>
+                        </li>
+                        <li><button class="btn btn-primary" (click)="resetUse()">Clear Selection</button></li>
+                    </ul>
+                </div>
+                <div *ngIf="User[0]">
+                    <p>Selected user: {{selectedUserName}}</p>
+                    <hr />
+                </div>
+            </div>
+            <div>
+                <div *ngIf="selectedUserName">
+                    <button class="btn btn-primary" (click)="newGroup()">Create New Group</button>
+                    <hr />
+                    <div *ngIf="GroupFlag">
+                        <input style="margin-top: 5px;" id="ipch" type="text" placeholder="Channel Name" #ipch> <br />
+                        <button class="btn btn-primary" style="margin-top: 5px;"
+                            (click)="addChannel(ipch.value, selectedUserName)">Add
+                            Group</button>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="btn-group" *ngIf="Group[0]">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Select Group
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><button class="dropdown-item" (click)="selectGro(item)"
+                                *ngFor="let item of Group">{{item.grName}}</button>
+                        </li>
+                        <li><button class="btn btn-primary" (click)="resetGro()">Clear Selection</button></li>
+                    </ul>
+                </div>
+                <div *ngIf="Group[0]">
+                    <p>Selected Group: {{selectedGroupName}}</p>
+                    <hr />
+                </div>
+            </div>
+
+            <div *ngIf="selectedUser && selectedGroup">
+                Enter Messege:
+                <br />
+                <textarea name="" id="ipmess" style="height: 30px; width: 200px;" cols="30" rows="10"
+                    #ipmess></textarea>
+                <br />
+                <button class="btn btn-primary" (click)="addMessege(ipmess.value)">Send Messege</button>
+            </div>
+        </div>
+
+        <div class="col" style="margin-top: 5px;">
+            <div *ngIf="selectedGroupName">
+                <h4>{{selectedGroupName}}</h4>
+                <hr />
+            </div>
+            <div *ngFor="let item of selectedGroup?.messeges">
+                {{item.time | date:'shortTime'}} =>
+                {{item.sender.userName}} : {{item.messege}}
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>
