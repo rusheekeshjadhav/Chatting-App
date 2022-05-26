@@ -90,9 +90,6 @@ export class CollectComponent {
   }
 
   newGroup(){
-    // this.cs.selectedGroup = null;
-    // this.cs.selectedGroupName = "";
-
     this.ms.groupflag = true;
   }
 
@@ -107,6 +104,15 @@ export class CollectComponent {
     else alert("Enter the messege !!!");
     console.log(document.getElementById("ipmess"));
     (<HTMLInputElement>document.getElementById("ipmess")).value = "";
+  }
+
+  checkSub(): boolean{
+    return this.ms.chechSub(this.cs.selectedUserName, this.cs.selectedGroupName);
+  }
+
+  subscribe(){
+    this.ms.subscribe(this.cs.selectedUserName, this.cs.selectedGroupName);
+    console.log(this.appl.collect);
   }
 
 }

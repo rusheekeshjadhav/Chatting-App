@@ -66,7 +66,9 @@
                 </div>
             </div>
 
-            <div *ngIf="selectedUser() && selectedGroup()">
+            <button class="btn btn-primary" *ngIf="checkSub()" (click)="subscribe()">Subscribe</button>
+
+            <div *ngIf="selectedUser() && selectedGroup() && !checkSub()">
                 Enter Messege:
                 <br />
                 <textarea name="" id="ipmess" style="height: 30px; width: 200px;" cols="30" rows="10"
