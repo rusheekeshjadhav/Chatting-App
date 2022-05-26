@@ -14,8 +14,8 @@ export class CollectService {
   selectedUser: User | null = null;
   selectedUserName: string = "";
 
-  selectedGroup: Group | null = null;
-  selectedGroupName: string = "";
+  selectedGroup!: Group;
+  selectedGroupName!: string;
 
   addUser(username: string, password: string) {
     if (username && password) {

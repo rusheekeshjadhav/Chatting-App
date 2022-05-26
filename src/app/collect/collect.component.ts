@@ -43,10 +43,10 @@ export class CollectComponent {
     this.cs.selectedGroupName = group.grName;
   }
 
-  resetGro() {
-    this.cs.selectedGroup = null;
-    this.cs.selectedGroupName = "";
-  }
+  // resetGro() {
+  //   this.cs.selectedGroup = null;
+  //   this.cs.selectedGroupName = "";
+  // }
 
   get UserFlag() {
     return this.cs.userflag;
