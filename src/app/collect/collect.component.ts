@@ -6,36 +6,44 @@ import { User } from '../user.component';
 @Component({
   selector: 'app-collect',
   templateUrl: './collect.component.html',
-  styleUrls: ['./collect.component.css']
+  styleUrls: ['./collect.component.css'],
+  providers: [CollectService]
 })
 export class CollectComponent {
 
   constructor(private cs: CollectService) { }
 
-  selectedUser: User | null = null;
-  selectedUserName: string = "";
-
-  selectedGroup: Group | null = null;
-  selectedGroupName: string = "";
+  selectedUser(){
+    return this.cs.selectedUser
+  }
+  selectedUserName(){
+    return this.cs.selectedUserName
+  }
+  selectedGroup(){
+    return this.cs.selectedGroup
+  }
+  selectedGroupName(){
+    return this.cs.selectedGroupName
+  }
 
   selectUse(user: User) {
-    this.selectedUser = user;
-    this.selectedUserName = user.userName;
+    this.cs.selectedUser = user;
+    this.cs.selectedUserName = user.userName;
   }
 
   resetUse() {
-    this.selectedUser = null;
-    this.selectedUserName = "";
+    this.cs.selectedUser = null;
+    this.cs.selectedUserName = "";
   }
 
   selectGro(group: Group) {
-    this.selectedGroup = group;
-    this.selectedGroupName = group.grName;
+    this.cs.selectedGroup = group;
+    this.cs.selectedGroupName = group.grName;
   }
 
   resetGro() {
-    this.selectedGroup = null;
-    this.selectedGroupName = "";
+    this.cs.selectedGroup = null;
+    this.cs.selectedGroupName = "";
   }
 
   get UserFlag() {
@@ -63,21 +71,25 @@ export class CollectComponent {
   }
 
   newUser(){
-    this.selectedUser = null;
-    this.selectedUserName = "";
+    this.cs.selectedUser = null;
+    this.cs.selectedUserName = "";
 
     this.cs.userflag = true;
   }
 
   addUser(username: string, password: string) {
     this.cs.addUser(username, password);
+    
+    this.cs.selectedGroup = this.cs.collect[0];
+    this.cs.selectedGroupName = this.cs.collect[0].grName;
+
     (<HTMLInputElement>document.getElementById("ipuser")).value = "";
     (<HTMLInputElement>document.getElementById("ippass")).value = "";
   }
 
   newGroup(){
-    this.selectedGroup = null;
-    this.selectedGroupName = "";
+    this.cs.selectedGroup = null;
+    this.cs.selectedGroupName = "";
 
     this.cs.groupflag = true;
   }
@@ -89,7 +101,7 @@ export class CollectComponent {
   }
 
   addMessege(mess: string) {
-    if (mess) this.cs.addMessege(this.selectedGroupName, this.selectedUserName, mess, new Date());
+    if (mess) this.cs.addMessege(this.cs.selectedGroupName, this.cs.selectedUserName, mess, new Date());
     else alert("Enter the messege !!!");
     (<HTMLInputElement>document.getElementById("ipmess")).value = "";
   }

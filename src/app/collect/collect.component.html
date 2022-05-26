@@ -30,18 +30,18 @@
                     </ul>
                 </div>
                 <div *ngIf="User[0]">
-                    <p>Selected user: {{selectedUserName}}</p>
+                    <p>Selected user: {{selectedUserName()}}</p>
                     <hr />
                 </div>
             </div>
             <div>
-                <div *ngIf="selectedUserName">
+                <div *ngIf="selectedUserName()">
                     <button class="btn btn-primary" (click)="newGroup()">Create New Group</button>
                     <hr />
                     <div *ngIf="GroupFlag">
                         <input style="margin-top: 5px;" id="ipch" type="text" placeholder="Channel Name" #ipch> <br />
                         <button class="btn btn-primary" style="margin-top: 5px;"
-                            (click)="addChannel(ipch.value, selectedUserName)">Add
+                            (click)="addChannel(ipch.value, selectedUserName())">Add
                             Group</button>
                         <hr />
                     </div>
@@ -61,12 +61,12 @@
                     </ul>
                 </div>
                 <div *ngIf="Group[0]">
-                    <p>Selected Group: {{selectedGroupName}}</p>
+                    <p>Selected Group: {{selectedGroupName()}}</p>
                     <hr />
                 </div>
             </div>
 
-            <div *ngIf="selectedUser && selectedGroup">
+            <div *ngIf="selectedUser() && selectedGroup()">
                 Enter Messege:
                 <br />
                 <textarea name="" id="ipmess" style="height: 30px; width: 200px;" cols="30" rows="10"
@@ -77,13 +77,12 @@
         </div>
 
         <div class="col" style="margin-top: 5px;">
-            <div *ngIf="selectedGroupName">
-                <h4>{{selectedGroupName}}</h4>
+            <div *ngIf="selectedGroupName()">
+                <h4>{{selectedGroupName()}}</h4>
                 <hr />
             </div>
-            <div *ngFor="let item of selectedGroup?.messeges">
-                {{item.time | date:'shortTime'}} =>
-                {{item.sender.userName}} : {{item.messege}}
+            <div *ngFor="let item of selectedGroup()?.messeges">
+                {{item.time | date:'shortTime'}} | {{item.sender.userName}} : {{item.messege}}
                 <hr />
             </div>
         </div>

@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { Group } from './group.component';
 import { User } from './user.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CollectService {
 
   constructor() { }
 
-  collect: Group[] = [];
+  collect: Group[] = [{
+    members: [],
+    messeges: [],
+    grName!: "General Channel"
+  }];
+
   users: User[] = [];
 
   userflag: boolean = false;
@@ -17,6 +20,12 @@ export class CollectService {
 
   groupflag: boolean = false;
   grflag!: boolean;
+
+  selectedUser: User | null = null;
+  selectedUserName: string = "";
+
+  selectedGroup: Group | null = null;
+  selectedGroupName: string = "";
 
   addUser(username: string, password: string) {
     if (username && password) {
@@ -33,6 +42,17 @@ export class CollectService {
           userName: username,
           password: password,
         });
+
+        this.collect[0].members.push({
+          userName: username,
+          password: password,
+        });
+
+        this.selectedUser = {
+          userName: username,
+          password: password,
+        };
+        this.selectedUserName = username;
         // console.log(this.users);
         this.userflag = false;
       }
@@ -66,7 +86,7 @@ export class CollectService {
     else alert("Enter channel name !!!");
   }
 
-  addMessege(selectedGroupName: string, selectedUserName: string, mess: string, time: Date){
+  addMessege(selectedGroupName: string, selectedUserName: string, mess: string, time: Date) {
     let use: User | any = this.users.find(element => element.userName === selectedUserName);
     let grp: Group | any = this.collect.find(element => element.grName === selectedGroupName);
     grp.messeges.push({
