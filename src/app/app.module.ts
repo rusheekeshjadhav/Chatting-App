@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { CollectComponent } from './collect/collect.component';
+import { MessegeService } from './messege.service';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { CollectComponent } from './collect/collect.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [MessegeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { Application } from '../application.component';
 import { CollectService } from '../collect.service';
 import { Group } from '../group.component';
+import { MessegeService } from '../messege.service';
 import { User } from '../user.component';
 
 @Component({
@@ -11,7 +13,7 @@ import { User } from '../user.component';
 })
 export class CollectComponent {
 
-  constructor(private cs: CollectService) { }
+  constructor(private cs: CollectService, private ms: MessegeService, private appl: Application) { }
 
   selectedUser(){
     return this.cs.selectedUser
@@ -23,7 +25,7 @@ export class CollectComponent {
     return this.cs.selectedGroup
   }
   selectedGroupName(){
-    return this.cs.selectedGroupName
+    return this.cs.selectedGroupName;
   }
 
   selectUse(user: User) {
@@ -55,19 +57,19 @@ export class CollectComponent {
   }
 
   get GroupFlag() {
-    return this.cs.groupflag;
+    return this.ms.groupflag;
   }
 
   setGroupFlag(flag: boolean) {
-    this.cs.groupflag = flag;
+    this.ms.groupflag = flag;
   }
 
   get User() {
-    return this.cs.users;
+    return this.appl.users;
   }
 
   get Group() {
-    return this.cs.collect;
+    return this.appl.collect;
   }
 
   newUser(){
@@ -80,29 +82,30 @@ export class CollectComponent {
   addUser(username: string, password: string) {
     this.cs.addUser(username, password);
     
-    this.cs.selectedGroup = this.cs.collect[0];
-    this.cs.selectedGroupName = this.cs.collect[0].grName;
+    this.cs.selectedGroup = this.appl.collect[0];
+    this.cs.selectedGroupName = this.appl.collect[0].grName;
 
     (<HTMLInputElement>document.getElementById("ipuser")).value = "";
     (<HTMLInputElement>document.getElementById("ippass")).value = "";
   }
 
   newGroup(){
-    this.cs.selectedGroup = null;
-    this.cs.selectedGroupName = "";
+    // this.cs.selectedGroup = null;
+    // this.cs.selectedGroupName = "";
 
-    this.cs.groupflag = true;
+    this.ms.groupflag = true;
   }
 
   addChannel(chName: string, selectedUserName: string) {
-    console.log(selectedUserName);
-    this.cs.addChannel(chName, selectedUserName);
+    // console.log(selectedUserName);
+    this.ms.addChannel(chName, selectedUserName);
     (<HTMLInputElement>document.getElementById("ipch")).value = "";
   }
 
   addMessege(mess: string) {
-    if (mess) this.cs.addMessege(this.cs.selectedGroupName, this.cs.selectedUserName, mess, new Date());
+    if (mess) this.ms.addMessege(this.cs.selectedGroupName, this.cs.selectedUserName, mess, new Date());
     else alert("Enter the messege !!!");
+    console.log(document.getElementById("ipmess"));
     (<HTMLInputElement>document.getElementById("ipmess")).value = "";
   }
 
