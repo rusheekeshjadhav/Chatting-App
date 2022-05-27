@@ -58,7 +58,7 @@ export class MessegeService {
 
   chechSub(selectedUserName: string, selectedGroupName: string): boolean {
 
-    if (selectedGroupName && selectedGroupName) {
+    if (selectedUserName && selectedGroupName) {
       let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
 
       if (grp.members.find((element: { userName: string; }) => element.userName === selectedUserName)) {
@@ -70,7 +70,7 @@ export class MessegeService {
 
   }
 
-  subscribe(selectedUserName: string, selectedGroupName: string) {
+   subscribe(selectedUserName: string, selectedGroupName: string) {
     let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
     let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
 

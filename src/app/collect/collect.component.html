@@ -67,9 +67,11 @@
                     <h4>{{selectedGroupName()}}</h4>
                     <hr />
                 </div>
-                <div *ngFor="let item of selectedGroup()?.messeges">
-                    {{item.time | date:'shortTime'}} | {{item.sender.userName}} : {{item.messege}}
-                    <hr />
+                <div *ngIf="!checkSub()">
+                    <div *ngFor="let item of selectedGroup()?.messeges">
+                        {{item.time | date:'shortTime'}} | {{item.sender.userName}} : {{item.messege}}
+                        <hr />
+                    </div>
                 </div>
             </div>
 
@@ -82,7 +84,7 @@
             <div class="col-8" *ngIf="checkSub()">
                 <div class="col"></div>
                 <div class="col">
-                    <button class="btn btn-primary" (click)="subscribe()">Subscribe</button>
+                    <button class="btn btn-primary" (click)="subscribe()">Subscribe Channel</button>
                 </div>
                 <div class="col"></div>
             </div>
