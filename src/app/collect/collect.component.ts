@@ -15,16 +15,16 @@ export class CollectComponent {
 
   constructor(private cs: CollectService, private ms: MessegeService, private appl: Application) { }
 
-  get selectedUser(){
+  get selectedUser() {
     return this.cs.selectedUser
   }
-  get selectedUserName(){
+  get selectedUserName() {
     return this.cs.selectedUserName
   }
-  get selectedGroup(){
+  get selectedGroup() {
     return this.cs.selectedGroup
   }
-  get selectedGroupName(){
+  get selectedGroupName() {
     return this.cs.selectedGroupName;
   }
 
@@ -51,7 +51,7 @@ export class CollectComponent {
 
   addUser(username: string, password: string) {
     this.cs.addUser(username, password);
-    
+
     this.cs.selectedGroup = this.appl.collect[0];
     this.cs.selectedGroupName = this.appl.collect[0].grName;
 
@@ -72,13 +72,17 @@ export class CollectComponent {
     (<HTMLInputElement>document.getElementById("ipmess")).value = "";
   }
 
-  checkSub(): boolean{
+  checkSub(): boolean {
     return this.ms.chechSub(this.cs.selectedUserName, this.cs.selectedGroupName);
   }
 
-  subscribe(){
+  subscribe() {
     this.ms.subscribe(this.cs.selectedUserName, this.cs.selectedGroupName);
-    console.log(this.appl.collect);
+    // console.log(this.appl.collect);
+  }
+
+  unsubscribe() {
+    this.ms.unsubscribe(this.cs.selectedUserName, this.cs.selectedGroupName);
   }
 
 }

@@ -82,4 +82,18 @@ export class MessegeService {
     }
     // console.log(grp.members);
   }
+
+  unsubscribe(selectedUserName: string, selectedGroupName: string){
+    // let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
+    let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
+
+    console.log(grp.members);
+
+    grp.members.forEach((value: User, index: number) => {
+      if(value.userName === selectedUserName)
+        grp.members.splice(index, 1);
+    });
+
+    console.log(grp.members);
+  }
 }
