@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Application } from "./application.component";
+import { Application } from "./application.service";
 import { CollectService } from "./collect.service";
-import { Group } from "./group.component";
-import { User } from "./user.component";
+import { Group } from "./group";
+import { User } from "./user";
 
 @Injectable({
   providedIn: "root"
@@ -70,7 +70,7 @@ export class MessegeService {
 
   }
 
-   subscribe(selectedUserName: string, selectedGroupName: string) {
+  subscribe(selectedUserName: string, selectedGroupName: string) {
     let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
     let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Application } from './application.component';
-import { Group } from './group.component';
-import { User } from './user.component';
+import { Application } from './application.service';
+import { Group } from './group';
+import { User } from './user';
 
 @Injectable()
 export class CollectService {

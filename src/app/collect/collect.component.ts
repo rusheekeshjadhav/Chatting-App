@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Application } from '../application.component';
+import { Application } from '../application.service';
 import { CollectService } from '../collect.service';
-import { Group } from '../group.component';
+import { Group } from '../group';
 import { MessegeService } from '../messege.service';
-import { User } from '../user.component';
+import { User } from '../user';
 
 @Component({
   selector: 'app-collect',
@@ -15,45 +15,22 @@ export class CollectComponent {
 
   constructor(private cs: CollectService, private ms: MessegeService, private appl: Application) { }
 
-  selectedUser(){
+  get selectedUser(){
     return this.cs.selectedUser
   }
-  selectedUserName(){
+  get selectedUserName(){
     return this.cs.selectedUserName
   }
-  selectedGroup(){
+  get selectedGroup(){
     return this.cs.selectedGroup
   }
-  selectedGroupName(){
+  get selectedGroupName(){
     return this.cs.selectedGroupName;
-  }
-
-  selectUse(user: User) {
-    this.cs.selectedUser = user;
-    this.cs.selectedUserName = user.userName;
-  }
-
-  resetUse() {
-    this.cs.selectedUser = null;
-    this.cs.selectedUserName = "";
   }
 
   selectGro(group: Group) {
     this.cs.selectedGroup = group;
     this.cs.selectedGroupName = group.grName;
-  }
-
-  // resetGro() {
-  //   this.cs.selectedGroup = null;
-  //   this.cs.selectedGroupName = "";
-  // }
-
-  get UserFlag() {
-    return this.cs.userflag;
-  }
-
-  setUserFlag(flag: boolean) {
-    this.cs.userflag = flag;
   }
 
   get GroupFlag() {
@@ -72,13 +49,6 @@ export class CollectComponent {
     return this.appl.collect;
   }
 
-  newUser(){
-    this.cs.selectedUser = null;
-    this.cs.selectedUserName = "";
-
-    this.cs.userflag = true;
-  }
-
   addUser(username: string, password: string) {
     this.cs.addUser(username, password);
     
@@ -87,10 +57,6 @@ export class CollectComponent {
 
     (<HTMLInputElement>document.getElementById("ipuser")).value = "";
     (<HTMLInputElement>document.getElementById("ippass")).value = "";
-  }
-
-  newGroup(){
-    this.ms.groupflag = true;
   }
 
   addChannel(chName: string, selectedUserName: string) {
