@@ -46,7 +46,7 @@
                     <div *ngIf="GroupFlag">
                         <input style="margin-top: 5px;" id="ipch" type="text" placeholder="Channel Name" #ipch> <br />
                         <button class="btn btn-primary" style="margin-top: 5px;"
-                            (click)="addChannel(ipch.value, selectedUserName)">Add
+                            (click)="addChannel(ipch.value)">Add
                             Channel</button>
                         <hr />
                     </div>
@@ -93,7 +93,7 @@
                 </div>
             </div>
 
-            <div class="col-8" *ngIf="selectedUser && selectedGroup && !checkSub()">
+            <div class="col-8" *ngIf="selectedUserName && selectedGroup && !checkSub()">
                 <input class="col-8" name="" placeholder="Enter Messege Here" id="ipmess" style="height: 35px;" #ipmess>
                 <button class="btn btn-primary" style="margin-bottom: 10px; margin-left: 10px;"
                     (click)="addMessege(ipmess.value)">Send Messege</button>

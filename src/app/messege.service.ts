@@ -1,45 +1,61 @@
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Application } from "./application.service";
 import { CollectService } from "./collect.service";
 import { Group } from "./group";
 import { User } from "./user";
 
+const CHANNEL = 'https://localhost:44349/api/ChannelTable';
+const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
 @Injectable({
   providedIn: "root"
 })
 export class MessegeService {
 
-  constructor(private appl: Application) { }
+  constructor(private appl: Application, private http: HttpClient) { }
 
   groupflag: boolean = false;
   grflag!: boolean;
   subflag: boolean = true;
 
-  addChannel(chName: string, selectedUserName: string) {
+  addChannel(chName: string): any {
     if (chName) {
       this.grflag = true;
-      this.appl.collect.forEach(element => {
-        if (element.grName === chName) {
-          alert("Duplicate Channel Name !!!")
-          this.grflag = false;
-        }
-      });
-
-      if (this.grflag) {
-        let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
-        // console.log(use);
-
-        this.appl.collect.push({
-          grName: chName,
-          members: [use],
-          messeges: []
-        })
-        // console.log(this.appl.collect);
-        this.groupflag = false;
-      }
+      this.groupflag = false;
+      return this.http.post(CHANNEL, { "Channelname": chName }, httpOptions);
     }
-    else alert("Enter channel name !!!");
+    else {
+      alert("Please enter the data");
+      return null;
+    }
   }
+
+  // addChannel(chName: string, selectedUserName: string) {
+  //   if (chName) {
+  //     this.grflag = true;
+  //     this.appl.collect.forEach(element => {
+  //       if (element.grName === chName) {
+  //         alert("Duplicate Channel Name !!!")
+  //         this.grflag = false;
+  //       }
+  //     });
+
+  //     if (this.grflag) {
+  //       let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
+  //       // console.log(use);
+
+  //       this.appl.collect.push({
+  //         grName: chName,
+  //         members: [use],
+  //         messeges: []
+  //       })
+  //       // console.log(this.appl.collect);
+  //       this.groupflag = false;
+  //     }
+  //   }
+  //   else alert("Enter channel name !!!");
+  // }
 
   addMessege(selectedGroupName: string, selectedUserName: string, mess: string, time: Date) {
     // console.log(this.appl.users);

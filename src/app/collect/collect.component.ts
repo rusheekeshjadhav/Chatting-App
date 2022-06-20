@@ -13,14 +13,11 @@ import { User } from '../user';
 })
 export class CollectComponent {
 
+  selectedUserName: string = "";
+  selectedUser: any;
+
   constructor(private cs: CollectService, private ms: MessegeService, private appl: Application) { }
 
-  get selectedUser() {
-    return this.cs.selectedUser
-  }
-  get selectedUserName() {
-    return this.cs.selectedUserName
-  }
   get selectedGroup() {
     return this.cs.selectedGroup
   }
@@ -50,39 +47,40 @@ export class CollectComponent {
   }
 
   addUser(username: string, password: string) {
-    this.cs.addUser(username, password);
+    this.cs.addUser(username, password).subscribe((data: any) => {
+      this.selectedUser = data;
+      this.selectedUserName = data.username;
+    });
 
     this.cs.selectedGroup = this.appl.collect[0];
     this.cs.selectedGroupName = this.appl.collect[0].grName;
-
-    (<HTMLInputElement>document.getElementById("ipuser")).value = "";
-    (<HTMLInputElement>document.getElementById("ippass")).value = "";
   }
 
-  addChannel(chName: string, selectedUserName: string) {
-    // console.log(selectedUserName);
-    this.ms.addChannel(chName, selectedUserName);
+  addChannel(chName: string) {
+    this.ms.addChannel(chName).subscribe((data: any) => {
+      console.log(data);
+    });
     (<HTMLInputElement>document.getElementById("ipch")).value = "";
   }
 
   addMessege(mess: string) {
-    if (mess) this.ms.addMessege(this.cs.selectedGroupName, this.cs.selectedUserName, mess, new Date());
+    if (mess) this.ms.addMessege(this.cs.selectedGroupName, this.selectedUserName, mess, new Date());
     else alert("Enter the messege !!!");
     console.log(document.getElementById("ipmess"));
     (<HTMLInputElement>document.getElementById("ipmess")).value = "";
   }
 
   checkSub(): boolean {
-    return this.ms.chechSub(this.cs.selectedUserName, this.cs.selectedGroupName);
+    return this.ms.chechSub(this.selectedUserName, this.cs.selectedGroupName);
   }
 
   subscribe() {
-    this.ms.subscribe(this.cs.selectedUserName, this.cs.selectedGroupName);
+    this.ms.subscribe(this.selectedUserName, this.cs.selectedGroupName);
     // console.log(this.appl.collect);
   }
 
   unsubscribe() {
-    this.ms.unsubscribe(this.cs.selectedUserName, this.cs.selectedGroupName);
+    this.ms.unsubscribe(this.selectedUserName, this.cs.selectedGroupName);
   }
 
 }
