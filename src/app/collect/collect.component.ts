@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Application } from '../application.service';
 import { CollectService } from '../collect.service';
 import { Group } from '../group';
@@ -11,23 +11,27 @@ import { User } from '../user';
   styleUrls: ['./collect.component.css'],
   providers: [CollectService]
 })
-export class CollectComponent {
+export class CollectComponent implements OnInit {
 
   selectedUserName: string = "";
   selectedUser: any;
 
+  selectedGroupName: string = "";
+  selectedGroup: any;
+
+  channels: any = [];
+  userchannels: any = [];
+
   constructor(private cs: CollectService, private ms: MessegeService, private appl: Application) { }
 
-  get selectedGroup() {
-    return this.cs.selectedGroup
-  }
-  get selectedGroupName() {
-    return this.cs.selectedGroupName;
+  ngOnInit(): void {
+    this.getChannels();
+    this.getUserChannelsByChannelId();
   }
 
-  selectGro(group: Group) {
-    this.cs.selectedGroup = group;
-    this.cs.selectedGroupName = group.grName;
+  selectGro(group: any) {
+    this.selectedGroup = group;
+    this.selectedGroupName = group.channelname;
   }
 
   get GroupFlag() {
@@ -50,37 +54,59 @@ export class CollectComponent {
     this.cs.addUser(username, password).subscribe((data: any) => {
       this.selectedUser = data;
       this.selectedUserName = data.username;
-    });
 
-    this.cs.selectedGroup = this.appl.collect[0];
-    this.cs.selectedGroupName = this.appl.collect[0].grName;
+      this.selectedGroup = this.channels[0];
+      this.selectedGroupName = this.channels[0].channelname;
+    });
   }
 
   addChannel(chName: string) {
     this.ms.addChannel(chName).subscribe((data: any) => {
-      console.log(data);
+      this.selectedGroup = data;
+      this.selectedGroupName = data.channelname;
+
+      this.getChannels();
+      this.getUserChannelsByChannelId();
     });
     (<HTMLInputElement>document.getElementById("ipch")).value = "";
   }
 
+  getChannels(): any {
+    this.ms.getChannels().subscribe((data: any) => {
+      this.channels = data;
+    });
+  }
+
+  getUserChannelsByChannelId(): any {
+    if (this.selectedGroup != null)
+      this.ms.getUserChannelsByChannelId(this.selectedGroup.channelid).subscribe((data: any) => {
+        this.userchannels = data;
+        console.log(this.selectedGroup.channelid);
+        console.log(data);
+      });
+  }
+
   addMessege(mess: string) {
-    if (mess) this.ms.addMessege(this.cs.selectedGroupName, this.selectedUserName, mess, new Date());
+    if (mess) this.ms.addMessege(this.selectedGroupName, this.selectedUserName, mess, new Date());
     else alert("Enter the messege !!!");
     console.log(document.getElementById("ipmess"));
     (<HTMLInputElement>document.getElementById("ipmess")).value = "";
   }
 
   checkSub(): boolean {
-    return this.ms.chechSub(this.selectedUserName, this.cs.selectedGroupName);
+    let uc = this.userchannels.find((element: { channelid: any; }) => element.channelid === this.selectedGroup.channelid);
+    if (uc == null)
+      return false;
+    else return true;
   }
 
   subscribe() {
-    this.ms.subscribe(this.selectedUserName, this.cs.selectedGroupName);
+    this.ms.subscribe(this.selectedUserName, this.selectedGroupName);
     // console.log(this.appl.collect);
   }
 
   unsubscribe() {
-    this.ms.unsubscribe(this.selectedUserName, this.cs.selectedGroupName);
+    this.ms.unsubscribe(this.selectedUserName, this.selectedGroupName);
   }
 
 }

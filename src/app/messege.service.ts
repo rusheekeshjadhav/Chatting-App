@@ -6,6 +6,7 @@ import { Group } from "./group";
 import { User } from "./user";
 
 const CHANNEL = 'https://localhost:44349/api/ChannelTable';
+const USER_CHANNEL_BY_CHANNELID = 'https://localhost:44349/api/UserChannel/ByChannel';
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
 @Injectable({
@@ -29,6 +30,15 @@ export class MessegeService {
       alert("Please enter the data");
       return null;
     }
+  }
+
+  getChannels(){
+    return this.http.get(CHANNEL);
+  }
+
+  getUserChannelsByChannelId(id: number){
+    var uc = USER_CHANNEL_BY_CHANNELID + "/" +id;
+    return this.http.get(uc);
   }
 
   // addChannel(chName: string, selectedUserName: string) {

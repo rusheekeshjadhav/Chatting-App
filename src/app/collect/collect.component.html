@@ -53,16 +53,16 @@
                 </div>
             </div>
 
-            <div>
+            <!-- <div>
                 <p>Channel Members</p>
                 <button style="margin: 5px;" class="btn btn-primary" *ngFor="let item of selectedGroup.members">
                     {{item.userName}} </button>
             </div>
-            <hr />
+            <hr /> -->
             <div>
                 <p>Availabale Channels</p>
                 <button style="margin: 5px;" (click)="selectGro(item)" class="btn btn-primary"
-                    *ngFor="let item of Group"> {{item.grName}} </button>
+                    *ngFor="let item of channels"> {{item.channelname}} </button>
             </div>
             <hr />
         </div>

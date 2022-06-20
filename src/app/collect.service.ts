@@ -15,9 +15,6 @@ export class CollectService {
   userflag: boolean = false;
   addflag!: boolean;
 
-  selectedGroup!: Group;
-  selectedGroupName!: string;
-
   addUser(username: string, password: string): any {
     if (username && password) {
       this.addflag = true;
