@@ -53,12 +53,12 @@
                 </div>
             </div>
 
-            <!-- <div>
+            <div>
                 <p>Channel Members</p>
-                <button style="margin: 5px;" class="btn btn-primary" *ngFor="let item of selectedGroup.members">
-                    {{item.userName}} </button>
+                <button style="margin: 5px;" class="btn btn-primary" *ngFor="let item of userchannels">
+                    {{item.userid}} </button>
             </div>
-            <hr /> -->
+            <hr />
             <div>
                 <p>Availabale Channels</p>
                 <button style="margin: 5px;" (click)="selectGro(item)" class="btn btn-primary"
@@ -88,7 +88,7 @@
                 <div *ngIf="subFlag">
                     <div *ngFor="let item of messeges">
 
-                        {{item.time | date:'shortTime'}} | {{item.senderid}} : {{item.messege}}
+                        {{item.time+'z'| date:'MMMM d, h:mm'}} | {{item.senderid}} : {{item.messege}}
                         <hr />
                     </div>
                 </div>

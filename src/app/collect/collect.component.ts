@@ -24,7 +24,9 @@ export class CollectComponent implements OnInit {
 
   constructor(private cs: CollectService, private ms: MessegeService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.getMessegesByChannelId();
+  }
 
   selectGro(group: any) {
     this.selectedGroup = group;
@@ -47,14 +49,12 @@ export class CollectComponent implements OnInit {
         if (data) {
           this.selectedUser = data;
           this.selectedUserName = data.username;
-
           this.getChannels();
         }
         else {
           this.cs.addUser(username, password).subscribe((data: any) => {
             this.selectedUser = data;
             this.selectedUserName = data.username;
-
             this.getChannels();
           });
         }
@@ -66,7 +66,7 @@ export class CollectComponent implements OnInit {
   }
 
   addChannel(chName: string) {
-    this.ms.addChannel(chName).subscribe((data: any) => {
+    this.ms.addChannel(chName, this.selectedUser.userid).subscribe((data: any) => {
       this.selectedGroup = data;
       this.selectedGroupName = data.channelname;
 

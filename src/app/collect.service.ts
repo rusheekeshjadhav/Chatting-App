@@ -30,43 +30,4 @@ export class CollectService {
     let un = USER_BY_NAME + "/" + name;
     return this.http.get(un);
   }
-
-  // addUser(username: string, password: string) {
-  //   if (username && password) {
-  //     this.addflag = true;
-  //     this.appl.users.forEach(element => {
-  //       if (element.userName === username) {
-  //         alert("Duplicate User Name !!!");
-  //         this.addflag = false;
-  //       }
-  //     });
-
-  //     if (this.addflag) {
-  //       this.appl.users.push({
-  //         userName: username,
-  //         password: password,
-  //       });
-
-  //       // console.log(this.appl.users);
-
-  //       this.appl.collect[0].members.push({
-  //         userName: username,
-  //         password: password,
-  //       });
-
-  //       // console.log(this.collect);
-
-  //       this.selectedUser = {
-  //         userName: username,
-  //         password: password,
-  //       };
-  //       this.selectedUserName = username;
-  //       // console.log(this.users);
-  //       this.userflag = false;
-  //     }
-  //   }
-  //   else alert("Enter user data !!!");
-  //   // console.log(this.users);
-  // }
-
 }
