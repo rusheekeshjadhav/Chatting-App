@@ -5,6 +5,7 @@ import { User } from './user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const USER = 'https://localhost:44349/api/UserTable';
+const USER_BY_NAME = 'https://localhost:44349/api/UserTable/ByName';
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
 @Injectable()
@@ -16,19 +17,18 @@ export class CollectService {
   addflag!: boolean;
 
   addUser(username: string, password: string): any {
-    if (username && password) {
-      this.addflag = true;
-      this.userflag = false;
-      return this.http.post(USER, { "Username": username, "Passwords": password }, httpOptions);
-    }
-    else {
-      alert("Please enter the data");
-      return null;
-    }
+    this.addflag = true;
+    this.userflag = false;
+    return this.http.post(USER, { "Username": username, "Passwords": password }, httpOptions);
   }
 
-  getUsers(): any{
+  getUsers(): any {
     return this.http.get(USER);
+  }
+
+  getUserByName(name: string): any {
+    let un = USER_BY_NAME + "/" + name;
+    return this.http.get(un);
   }
 
   // addUser(username: string, password: string) {

@@ -42,12 +42,27 @@ export class CollectComponent implements OnInit {
   }
 
   addUser(username: string, password: string) {
-    this.cs.addUser(username, password).subscribe((data: any) => {
-      this.selectedUser = data;
-      this.selectedUserName = data.username;
+    if (username && password) {
+      this.cs.getUserByName(username).subscribe((data: any) => {
+        if (data) {
+          this.selectedUser = data;
+          this.selectedUserName = data.username;
 
-      this.getChannels();
-    });
+          this.getChannels();
+        }
+        else {
+          this.cs.addUser(username, password).subscribe((data: any) => {
+            this.selectedUser = data;
+            this.selectedUserName = data.username;
+
+            this.getChannels();
+          });
+        }
+      });
+    }
+    else {
+      alert("Please enter the data");
+    }
   }
 
   addChannel(chName: string) {
@@ -110,9 +125,9 @@ export class CollectComponent implements OnInit {
     });
   }
 
-  unsubscribe() {
-    // this.ms.unsubscribe(this.selectedUserName, this.selectedGroupName);
-    console.log("pending");
+  unsubscribeCh() {
+    this.ms.unsubscribeCh(this.selectedGroup.channelid, this.selectedUser.userid).subscribe((data: any) => {
+      this.checkSub();
+    });
   }
-
 }

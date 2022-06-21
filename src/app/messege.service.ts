@@ -8,6 +8,7 @@ import { User } from "./user";
 const CHANNEL = 'https://localhost:44349/api/ChannelTable';
 const USER_CHANNEL_BY_CHANNELID = 'https://localhost:44349/api/UserChannel/ByChannel';
 const ADD_USER_CHANNEL = 'https://localhost:44349/api/UserChannel';
+const DELETE_USER_CHANNEL = 'https://localhost:44349/api/UserChannel/delete';
 const MESSEGE_BY_CHANNELID = 'https://localhost:44349/api/MessegeTable/ByChannel';
 const ADD_MESSEGE = 'https://localhost:44349/api/MessegeTable';
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
@@ -53,10 +54,13 @@ export class MessegeService {
     return this.http.post(ADD_USER_CHANNEL, { "Channelid": chId, "Userid": usId }, httpOptions);
   }
 
+  unsubscribeCh(chId: number, usId: number) {
+    return this.http.post(DELETE_USER_CHANNEL, { "Channelid": chId, "Userid": usId }, httpOptions);
+  }
+
   addMessege(chId: number, usId: number, mess: string, time: Date) {
     return this.http.post(ADD_MESSEGE, { "Channelid": chId, "Senderid": usId, "Messege": mess, "Time": time }, httpOptions);
   }
-
 
 
 
@@ -127,17 +131,17 @@ export class MessegeService {
   //   // console.log(grp.members);
   // }
 
-  unsubscribe(selectedUserName: string, selectedGroupName: string) {
-    // let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
-    let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
+  // unsubscribe(selectedUserName: string, selectedGroupName: string) {
+  //   // let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
+  //   let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
 
-    console.log(grp.members);
+  //   console.log(grp.members);
 
-    grp.members.forEach((value: User, index: number) => {
-      if (value.userName === selectedUserName)
-        grp.members.splice(index, 1);
-    });
+  //   grp.members.forEach((value: User, index: number) => {
+  //     if (value.userName === selectedUserName)
+  //       grp.members.splice(index, 1);
+  //   });
 
-    console.log(grp.members);
-  }
+  //   console.log(grp.members);
+  // }
 }
