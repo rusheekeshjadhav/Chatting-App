@@ -85,9 +85,10 @@
                     </div>
                     <hr />
                 </div>
-                <div *ngIf="!subFlag">
-                    <div *ngFor="let item of selectedGroup?.messeges">
-                        {{item.time | date:'shortTime'}} | {{item.sender.userName}} : {{item.messege}}
+                <div *ngIf="subFlag">
+                    <div *ngFor="let item of messeges">
+
+                        {{item.time | date:'shortTime'}} | {{item.senderid}} : {{item.messege}}
                         <hr />
                     </div>
                 </div>

@@ -7,7 +7,9 @@ import { User } from "./user";
 
 const CHANNEL = 'https://localhost:44349/api/ChannelTable';
 const USER_CHANNEL_BY_CHANNELID = 'https://localhost:44349/api/UserChannel/ByChannel';
-const ADD_USER_CHANNEL = 'https://localhost:44349/api/UserChannel'
+const ADD_USER_CHANNEL = 'https://localhost:44349/api/UserChannel';
+const MESSEGE_BY_CHANNELID = 'https://localhost:44349/api/MessegeTable/ByChannel';
+const ADD_MESSEGE = 'https://localhost:44349/api/MessegeTable';
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
 @Injectable({
@@ -33,17 +35,26 @@ export class MessegeService {
     }
   }
 
-  getChannels(){
+  getChannels() {
     return this.http.get(CHANNEL);
   }
 
-  getUserChannelsByChannelId(id: number){
-    var uc = USER_CHANNEL_BY_CHANNELID + "/" +id;
+  getMessegesByChannelId(id: number) {
+    var mt = MESSEGE_BY_CHANNELID + "/" + id;
+    return this.http.get(mt);
+  }
+
+  getUserChannelsByChannelId(id: number) {
+    var uc = USER_CHANNEL_BY_CHANNELID + "/" + id;
     return this.http.get(uc);
   }
 
   subscribeCh(chId: number, usId: number) {
     return this.http.post(ADD_USER_CHANNEL, { "Channelid": chId, "Userid": usId }, httpOptions);
+  }
+
+  addMessege(chId: number, usId: number, mess: string, time: Date) {
+    return this.http.post(ADD_MESSEGE, { "Channelid": chId, "Senderid": usId, "Messege": mess, "Time": time }, httpOptions);
   }
 
 
@@ -75,20 +86,20 @@ export class MessegeService {
   //   else alert("Enter channel name !!!");
   // }
 
-  addMessege(selectedGroupName: string, selectedUserName: string, mess: string, time: Date) {
-    // console.log(this.appl.users);
+  // addMessege(selectedGroupName: string, selectedUserName: string, mess: string, time: Date) {
+  //   // console.log(this.appl.users);
 
-    let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
-    let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
-    // console.log(use);
-    grp.messeges.push({
-      sender: use,
-      messege: mess,
-      time: time
-    });
-    // console.log(grp);
-    // console.log(this.appl.collect);
-  }
+  //   let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
+  //   let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
+  //   // console.log(use);
+  //   grp.messeges.push({
+  //     sender: use,
+  //     messege: mess,
+  //     time: time
+  //   });
+  //   // console.log(grp);
+  //   // console.log(this.appl.collect);
+  // }
 
   // chechSub(selectedUserName: string, selectedGroupName: string): boolean {
 
@@ -116,14 +127,14 @@ export class MessegeService {
   //   // console.log(grp.members);
   // }
 
-  unsubscribe(selectedUserName: string, selectedGroupName: string){
+  unsubscribe(selectedUserName: string, selectedGroupName: string) {
     // let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
     let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
 
     console.log(grp.members);
 
     grp.members.forEach((value: User, index: number) => {
-      if(value.userName === selectedUserName)
+      if (value.userName === selectedUserName)
         grp.members.splice(index, 1);
     });
 

@@ -18,6 +18,7 @@ export class CollectComponent implements OnInit {
 
   channels: any = [];
   userchannels: any = [];
+  messeges: any = [];
 
   subFlag: boolean = true;
 
@@ -26,10 +27,10 @@ export class CollectComponent implements OnInit {
   ngOnInit(): void { }
 
   selectGro(group: any) {
-    console.log(group);
     this.selectedGroup = group;
     this.selectedGroupName = group.channelname;
     this.checkSub();
+    this.getMessegesByChannelId();
   }
 
   get GroupFlag() {
@@ -64,7 +65,15 @@ export class CollectComponent implements OnInit {
       this.channels = data;
       this.selectedGroup = this.channels[0];
       this.selectedGroupName = this.channels[0].channelname;
+      this.getMessegesByChannelId();
     });
+  }
+
+  getMessegesByChannelId(): any {
+    if (this.selectedGroup != null)
+      this.ms.getMessegesByChannelId(this.selectedGroup.channelid).subscribe((data: any) => {
+        this.messeges = data;
+      });
   }
 
   // getUserChannelsByChannelId(): any {
@@ -75,9 +84,11 @@ export class CollectComponent implements OnInit {
   // }
 
   addMessege(mess: string) {
-    if (mess) this.ms.addMessege(this.selectedGroupName, this.selectedUserName, mess, new Date());
+    if (mess)
+      this.ms.addMessege(this.selectedGroup.channelid, this.selectedUser.userid, mess, new Date()).subscribe((data: any) => {
+        this.getMessegesByChannelId();
+      });
     else alert("Enter the messege !!!");
-    console.log(document.getElementById("ipmess"));
     (<HTMLInputElement>document.getElementById("ipmess")).value = "";
   }
 
@@ -95,7 +106,6 @@ export class CollectComponent implements OnInit {
 
   subscribeCh() {
     this.ms.subscribeCh(this.selectedGroup.channelid, this.selectedUser.userid).subscribe((data: any) => {
-      console.log(data);
       this.checkSub();
     });
   }
