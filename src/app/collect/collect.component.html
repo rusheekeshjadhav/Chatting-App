@@ -75,17 +75,17 @@
                     </div>
                     <div class="col">
                         <div class="text-right" style="text-align: right;">
-                            <button style="margin: 5px;" *ngIf="checkSub()" class="btn btn-success"
-                                (click)="subscribe()">Subscribe
+                            <button style="margin: 5px;" *ngIf="!subFlag" class="btn btn-success"
+                                (click)="subscribeCh()">Subscribe
                                 Channel</button>
-                            <button style="margin: 5px;" *ngIf="!checkSub() && selectedGroupName !== 'General Channel'"
+                            <button style="margin: 5px;" *ngIf="subFlag && selectedGroupName !== 'General Channel'"
                                 class="btn btn-danger" (click)="unsubscribe()">Unsubscribe
                                 Channel</button>
                         </div>
                     </div>
                     <hr />
                 </div>
-                <div *ngIf="!checkSub()">
+                <div *ngIf="!subFlag">
                     <div *ngFor="let item of selectedGroup?.messeges">
                         {{item.time | date:'shortTime'}} | {{item.sender.userName}} : {{item.messege}}
                         <hr />
@@ -93,7 +93,7 @@
                 </div>
             </div>
 
-            <div class="col-8" *ngIf="selectedUserName && selectedGroup && !checkSub()">
+            <div class="col-8" *ngIf="selectedUserName && selectedGroupName && subFlag">
                 <input class="col-8" name="" placeholder="Enter Messege Here" id="ipmess" style="height: 35px;" #ipmess>
                 <button class="btn btn-primary" style="margin-bottom: 10px; margin-left: 10px;"
                     (click)="addMessege(ipmess.value)">Send Messege</button>

@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Application } from '../application.service';
 import { CollectService } from '../collect.service';
-import { Group } from '../group';
 import { MessegeService } from '../messege.service';
-import { User } from '../user';
 
 @Component({
   selector: 'app-collect',
@@ -22,16 +19,17 @@ export class CollectComponent implements OnInit {
   channels: any = [];
   userchannels: any = [];
 
-  constructor(private cs: CollectService, private ms: MessegeService, private appl: Application) { }
+  subFlag: boolean = true;
 
-  ngOnInit(): void {
-    this.getChannels();
-    this.getUserChannelsByChannelId();
-  }
+  constructor(private cs: CollectService, private ms: MessegeService) { }
+
+  ngOnInit(): void { }
 
   selectGro(group: any) {
+    console.log(group);
     this.selectedGroup = group;
     this.selectedGroupName = group.channelname;
+    this.checkSub();
   }
 
   get GroupFlag() {
@@ -42,21 +40,12 @@ export class CollectComponent implements OnInit {
     this.ms.groupflag = flag;
   }
 
-  get User() {
-    return this.appl.users;
-  }
-
-  get Group() {
-    return this.appl.collect;
-  }
-
   addUser(username: string, password: string) {
     this.cs.addUser(username, password).subscribe((data: any) => {
       this.selectedUser = data;
       this.selectedUserName = data.username;
 
-      this.selectedGroup = this.channels[0];
-      this.selectedGroupName = this.channels[0].channelname;
+      this.getChannels();
     });
   }
 
@@ -66,7 +55,6 @@ export class CollectComponent implements OnInit {
       this.selectedGroupName = data.channelname;
 
       this.getChannels();
-      this.getUserChannelsByChannelId();
     });
     (<HTMLInputElement>document.getElementById("ipch")).value = "";
   }
@@ -74,17 +62,17 @@ export class CollectComponent implements OnInit {
   getChannels(): any {
     this.ms.getChannels().subscribe((data: any) => {
       this.channels = data;
+      this.selectedGroup = this.channels[0];
+      this.selectedGroupName = this.channels[0].channelname;
     });
   }
 
-  getUserChannelsByChannelId(): any {
-    if (this.selectedGroup != null)
-      this.ms.getUserChannelsByChannelId(this.selectedGroup.channelid).subscribe((data: any) => {
-        this.userchannels = data;
-        console.log(this.selectedGroup.channelid);
-        console.log(data);
-      });
-  }
+  // getUserChannelsByChannelId(): any {
+  //   if (this.selectedGroup != null)
+  //     this.ms.getUserChannelsByChannelId(this.selectedGroup.channelid).subscribe((data: any) => {
+  //       this.userchannels = data;
+  //     });
+  // }
 
   addMessege(mess: string) {
     if (mess) this.ms.addMessege(this.selectedGroupName, this.selectedUserName, mess, new Date());
@@ -93,20 +81,28 @@ export class CollectComponent implements OnInit {
     (<HTMLInputElement>document.getElementById("ipmess")).value = "";
   }
 
-  checkSub(): boolean {
-    let uc = this.userchannels.find((element: { channelid: any; }) => element.channelid === this.selectedGroup.channelid);
-    if (uc == null)
-      return false;
-    else return true;
+  checkSub() {
+    let uc: any;
+    if (this.selectedGroup != null)
+      this.ms.getUserChannelsByChannelId(this.selectedGroup.channelid).subscribe((data: any) => {
+        this.userchannels = data;
+        uc = this.userchannels.find((element: { userid: any; }) => element.userid === this.selectedUser.userid);
+        if (uc == null)
+          this.subFlag = false;
+        else this.subFlag = true;
+      });
   }
 
-  subscribe() {
-    this.ms.subscribe(this.selectedUserName, this.selectedGroupName);
-    // console.log(this.appl.collect);
+  subscribeCh() {
+    this.ms.subscribeCh(this.selectedGroup.channelid, this.selectedUser.userid).subscribe((data: any) => {
+      console.log(data);
+      this.checkSub();
+    });
   }
 
   unsubscribe() {
-    this.ms.unsubscribe(this.selectedUserName, this.selectedGroupName);
+    // this.ms.unsubscribe(this.selectedUserName, this.selectedGroupName);
+    console.log("pending");
   }
 
 }

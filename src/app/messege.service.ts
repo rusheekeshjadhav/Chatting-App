@@ -7,6 +7,7 @@ import { User } from "./user";
 
 const CHANNEL = 'https://localhost:44349/api/ChannelTable';
 const USER_CHANNEL_BY_CHANNELID = 'https://localhost:44349/api/UserChannel/ByChannel';
+const ADD_USER_CHANNEL = 'https://localhost:44349/api/UserChannel'
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
 @Injectable({
@@ -40,6 +41,13 @@ export class MessegeService {
     var uc = USER_CHANNEL_BY_CHANNELID + "/" +id;
     return this.http.get(uc);
   }
+
+  subscribeCh(chId: number, usId: number) {
+    return this.http.post(ADD_USER_CHANNEL, { "Channelid": chId, "Userid": usId }, httpOptions);
+  }
+
+
+
 
   // addChannel(chName: string, selectedUserName: string) {
   //   if (chName) {
@@ -82,32 +90,31 @@ export class MessegeService {
     // console.log(this.appl.collect);
   }
 
-  chechSub(selectedUserName: string, selectedGroupName: string): boolean {
+  // chechSub(selectedUserName: string, selectedGroupName: string): boolean {
 
-    if (selectedUserName && selectedGroupName) {
-      let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
+  //   if (selectedUserName && selectedGroupName) {
+  //     let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
 
-      if (grp.members.find((element: { userName: string; }) => element.userName === selectedUserName)) {
-        return false;
-      }
-      else return true;
-    }
-    else return false;
+  //     if (grp.members.find((element: { userName: string; }) => element.userName === selectedUserName)) {
+  //       return false;
+  //     }
+  //     else return true;
+  //   }
+  //   else return false;
+  // }
 
-  }
+  // subscribe(selectedUserName: string, selectedGroupName: string) {
+  //   let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
+  //   let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
 
-  subscribe(selectedUserName: string, selectedGroupName: string) {
-    let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
-    let grp: Group | any = this.appl.collect.find(element => element.grName === selectedGroupName);
-
-    if ((grp.members.find((element: { userName: string; }) => element.userName === selectedUserName)) === undefined) {
-      grp.members.push({
-        userName: use.userName,
-        password: use.password
-      });
-    }
-    // console.log(grp.members);
-  }
+  //   if ((grp.members.find((element: { userName: string; }) => element.userName === selectedUserName)) === undefined) {
+  //     grp.members.push({
+  //       userName: use.userName,
+  //       password: use.password
+  //     });
+  //   }
+  //   // console.log(grp.members);
+  // }
 
   unsubscribe(selectedUserName: string, selectedGroupName: string){
     // let use: User | any = this.appl.users.find(element => element.userName === selectedUserName);
